@@ -1,0 +1,11 @@
+body,
+input,
+button,
+select,
+textarea {
+  font-size: small;
+}
+
+marquee {
+    border-bottom: 1px;
+}
