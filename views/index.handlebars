@@ -1,0 +1,22 @@
+   <div class="col-1 mr-1">
+       <div class="mb-3">
+           Welcome Back<br>
+           <strong id="user">{{user}}</strong>
+       </div>
+       <div>
+           <strong>Saved</strong>
+       </div>
+       {{#each notes}}
+       <div class="d-flex justify-content-between">
+           <span>{{this}}...</span><span class="mx-1"><i class="fas fa-times"></i></span>
+       </div>
+       {{/each}}
+   </div>
+   <div class="col-8 mr-5">
+       <form class="mt-2">
+           {{!-- <input type="text" class="inputText border-0 w-100 pb-3" name="title" placeholder="TITLE"> --}}
+           <textarea name="note" class="border-0 w-100" placeholder="START A NEW NOTE"></textarea>
+           <input type="submit" value="Save As" class="border-0 bg-transparent pt-2" name="save">
+           <input type="submit" value="Update" class="border-0 bg-transparent pt-2" name="update">
+       </form>
+   </div>
