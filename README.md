@@ -1,5 +1,5 @@
 # Notes
-This project sets up a local server uses a basic login to allow a user to write, store, edit and delete text notes.
+This project sets up a local server and uses a basic login to allow a user to write, store, edit and delete text notes.
 
 ## Installation
 1. Clone the repository
