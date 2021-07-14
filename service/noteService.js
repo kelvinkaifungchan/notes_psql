@@ -1,50 +1,22 @@
+const {
+    verify
+} = require("crypto");
+const {
+    json
+} = require("express");
 const fs = require("fs");
 
 class NoteService {
     constructor(file) {
         this.file = file
-        this.notes = this.readNotes(this.file);
+        this.readNotes();
     }
 
-    // Function to add a note
-    add(note, user) {
-        // if the user does not exist
-        if (this.notes[user] === undefined) {
-            this.notes[user] = [note]
-        }
-        // if the user already exists
-        else {
-            this.notes[user].push(note);
-        }
-        this.writeNotes();
-        console.log("Add note done ", this.notes[user])
-    }
-
-    edit(note, user, index) {
-        this.notes[user][index] = note;
-        this.writeNotes();
-        console.log("Edit note done ", this.notes[user]);
-    }
-
-    delete(user, index) {
-        this.notes[user].splice(index, 1);
-        this.writeNotes();
-        console.log("Delete note done ", this.notes[user]);
-    }
-
-    list(user) {
-        if (this.notes[user] === undefined) {
-            throw new Error("User not found");
-        } else {
-            return this.notes[user];
-        }
-    }
-
+    //Method to update JSON file
     writeNotes() {
         console.log("Writing notes in storage");
         return new Promise((resolve, reject) => {
-            let data = JSON.stringify(this.notes);
-            fs.writeFile(__dirname + '/../storage/notes.json', data, (err) => {
+            fs.writeFile(this.file, JSON.stringify(this.notes), (err) => {
                 if (err) {
                     return reject(err);
                 }
@@ -53,19 +25,94 @@ class NoteService {
         })
     }
 
-    readNotes(file) {
+    //Method to read notes from JSON file
+    readNotes() {
         console.log("Reading notes in storage");
         return new Promise((resolve, reject) => {
-            fs.readFile(file, (err,data) => {
-                if(err) {
-                    reject (err);
+            fs.readFile(this.file, (err, data) => {
+                if (err) {
+                    reject(err);
                 } else {
-                    resolve(data);
+                    this.notes = JSON.parse(data)
                 }
+                return resolve(this.notes);
             })
         })
     }
 
+    // Method to add a note
+    add(note, user) {
+        console.log("Adding a new note");
+        return new Promise((resolve, reject) => {
+            this.readNotes().then((data) => {
+                if (data[user] === undefined) {
+                    data[user] = [note]
+                }
+                // if the user already exists
+                else {
+                    data[user].push(note);
+                }
+                resolve(data[user]);
+            })
+        })
+    }
+
+    // Method to update a note
+    edit(note, user, index) {
+        console.log("editing note")
+        return new Promise((resolve, reject) => {
+            if (this.notes[user] === "undefined") {
+                reject("User does not exist");
+            }
+            console.log("notes", this.notes[user])
+            if (this.notes[user].length <= index) {
+                reject("Note does not exist");
+            } else {
+                this.readNotes()
+                    .then((data) => {
+                        data[user][index] = note
+                        this.writeNotes();
+                        resolve(data[user])
+                    })
+            }
+        })
+    }
+
+    //Method to delete a note
+    delete(user, index) {
+        console.log("deleting a note")
+        return new Promise((resolve, reject) => {
+            if (this.notes[user] === "undefined") {
+                reject("User does not exist");
+            }
+            console.log("notes", this.notes[user])
+            if (this.notes[user].length <= index) {
+                reject("Note does not exist");
+            } else {
+                this.readNotes().then((data) => {
+                    console.log("notes deleted")
+                    data[user].splice(index, 1);
+                    this.writeNotes();
+                    resolve(data[user])
+                })
+            }
+        })
+    }
+
+    //Method to show notes
+    list(user) {
+        console.log("listing notes")
+        return new Promise((resolve, reject) => {
+            this.readNotes().then((data) => {
+                if (data[user] === undefined) {
+                    data[user] = [];
+                    resolve(data[user]);
+                } else {
+                    resolve(data[user]);
+                }
+            })
+        })
+    }
 }
 
 module.exports = NoteService;
@@ -75,6 +122,7 @@ module.exports = NoteService;
 // testNote.add("Second Note", "User1");
 // testNote.add("Hi There", "User2");
 // testNote.delete("User1", 0);
+// console.log(testNote.list("User1"))
 // testNote.edit("Changed it", "User2", 0);
 // console.log(testNote.list("User1"));
 // console.log(testNote.list("User2"));

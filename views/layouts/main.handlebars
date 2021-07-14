@@ -16,22 +16,24 @@
 <body>
     <div class="container-fluid p-5">
         <div class="row d-flex justify-content-between">
-          
+
             {{{body}}}
 
             <div class="col-2 ml-5">
                 <div>
                     HELP<br>
                     Start typing a new note.<br>
-                    Click save to add note to storage.<br>
-                    Click saved titles to edit saved note.<br>
-                    Click <i class="fas fa-times"></i> to delete saved note.
+                    Click "Save" to add new note to storage.<br>
+                    Click <i class="fas fa-check"></i> to update saved note.<br>
+                    Click <i class="fas fa-times"></i> to delete saved note.<br>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="index.js"></script>
 </body>
 

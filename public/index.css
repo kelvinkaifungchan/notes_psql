@@ -12,9 +12,19 @@ input[type=text] {
   box-shadow: none;
 }
 
-textarea {
+#newNote {
   width: 100%;
   height: 85vh;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none;
+}
+
+#savedNotes textarea {
+  width: 100%;
+  height: 10vh;
   outline: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -26,6 +36,6 @@ input[type=submit] {
   transform: translate(-5px);
 }
 
-#user {
-  text-transform: capitalize;
+span {
+cursor: pointer;
 }
