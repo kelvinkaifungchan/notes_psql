@@ -11,5 +11,5 @@ This project sets up a local server and uses a basic login to allow a user to wr
 ## Help
 - Click to start typing a new note
 - "Save" to add note to storage
-- Click saved titles to edit saved notes
+- Click the tick to update saved notes
 - Click the cross to delete saved note
