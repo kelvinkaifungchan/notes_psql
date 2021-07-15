@@ -38,10 +38,6 @@ class NoteRouter {
     }
 
     put(req, res) {
-        // console.log("this is pulling")
-        // console.log(req)
-        // console.log("DATA", req.body)
-        // console.log(req.body.note)
         return this.noteService.edit(req.body.note, req.auth.user, req.params.id)
         .then(() => this.noteService.list(req.auth.user))
         .then((results) => res.json(results))

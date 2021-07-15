@@ -52,3 +52,5 @@ app.use("/api/notes", new NoteRouter(noteService).router());
 app.listen(8080, function () {
     console.log("Running on port 8080")
 })
+
+module.exports = app
