@@ -14,7 +14,7 @@ describe("Authentication test", () => {
     })
 
     test('return false for correct username and wrong password', () => {
-        expect(authetication('Kelvin', 'random')).toBe(false);
+        expect(authetication('Test', 'random')).toBe(false);
     })
 
     test('return false for wrong username and correct password', () => {
@@ -22,6 +22,6 @@ describe("Authentication test", () => {
     })
 
     test('return true for correct username and password', () => {
-        expect(authetication('Kelvin', 'Password')).toBe(true);
+        expect(authetication('Test', 'Password')).toBe(true);
     })
 })

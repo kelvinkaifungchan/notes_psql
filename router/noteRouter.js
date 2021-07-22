@@ -17,9 +17,10 @@ class NoteRouter {
     }
 
     get(req, res) {
+        console.log("ROUTER GETTING")
         return this.noteService.list(req.auth.user).then((notes) => {
                 console.log(res.json(notes))
-                return res.json(notes)
+                res.json(notes)
             })
             .catch((err) => res.status(500).json(err))
     }
@@ -27,9 +28,9 @@ class NoteRouter {
     post(req, res) {
         this.noteService.add(req.body.note, req.auth.user)
             .then(() => {
-                this.noteService.writeNotes()
+                this.noteService.list(req.auth.user)
             })
-            .then(() => {
+            .then((notes) => {
                 res.redirect("/")
             })
             .catch((err) => {
@@ -38,7 +39,7 @@ class NoteRouter {
     }
 
     put(req, res) {
-        return this.noteService.edit(req.body.note, req.auth.user, req.params.id)
+        return this.noteService.edit(req.body.note, req.params.id)
         .then(() => this.noteService.list(req.auth.user))
         .then((results) => res.json(results))
         .catch((err) => {
@@ -49,7 +50,7 @@ class NoteRouter {
 
     delete(req, res) {
         return this.noteService
-            .delete(req.auth.user, req.params.id)
+            .delete(req.params.id)
             .then(() => this.noteService.list(req.auth.user))
             .then((results) => res.json(results))
             .catch((err) => {

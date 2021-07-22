@@ -2,10 +2,10 @@ let savedNotes = Handlebars.compile(
     `
     {{#each notes}}
     <div class="note">
-        <span class="input"><textarea class="border-0" data-id="{{ @index }}"> {{ this }}</textarea></span>
+        <span class="input"><textarea class="border-0" data-id="{{ this.id }}"> {{ this.body }}</textarea></span>
         <div class="d-flex justify-content-end w-100">
-            <span class="update px-2" data-id="{{ @index }}"><i class="fas fa-check"></i></span>
-            <span class="delete" data-id="{{ @index }}"><i class="fas fa-times"></i></span>
+            <span class="update px-2" data-id="{{ this.id }}"><i class="fas fa-check"></i></span>
+            <span class="delete" data-id="{{ this.id }}"><i class="fas fa-times"></i></span>
         </div>
         <hr>
     </div>

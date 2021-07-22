@@ -1,43 +1,47 @@
 // Setting up modules
 const fs = require("fs")
 
+//Setup Express
 const express = require("express");
 const app = express();
-const basicAuth = require('express-basic-auth');
+require("dotenv").config();
 const handlebars = require("express-handlebars");
 
-const NoteService = require("./service/noteService")
-const NoteRouter = require("./router/noteRouter");
-const myAuthorizer = require("./authentication")
+//Setup Postgres
+const knexConfig = require("./knexfile").development;
+const knex = require("knex")(knexConfig)
 
-// Set up front end
+//Set up front end
 app.engine("handlebars", handlebars({
     defaultLayout: "main"
 }));
 app.set("view engine", "handlebars");
 
-// Setting up middleware
-app.use(basicAuth({
-    authorizer: myAuthorizer,
-    challenge: true,
-}));
-
+//Setting up middleware
 app.use(express.urlencoded({
     extended: false
 }))
 app.use(express.json())
-
 app.use(express.static("public"));
 
+//Setup Authentication
+const basicAuth = require('express-basic-auth');
+const authorizer = require("./authentication")
+app.use(basicAuth({
+    authorizer: authorizer,
+    authorizeAsync: true,
+    challenge: true,
+}));
 
-
-//Create note
-const noteService = new NoteService(__dirname + "/storage/notes.json")
+//Setup Notes Service and Router
+const NoteService = require("./service/noteService")
+const noteService = new NoteService(knex)
 
 // Show homepage
 app.get("/", (req, res) => {
     console.log("getting homepage")
     noteService.list(req.auth.user).then((data) => {
+        console.log(data)
         res.render("index", {
             user: req.auth.user,
             notes: data
@@ -45,7 +49,8 @@ app.get("/", (req, res) => {
     })
 })
 
-// //Connect to noteService router
+// //Connect to Note Router
+const NoteRouter = require("./router/noteRouter");
 app.use("/api/notes", new NoteRouter(noteService).router());
 
 //Setup server
