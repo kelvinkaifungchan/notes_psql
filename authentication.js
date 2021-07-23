@@ -5,7 +5,7 @@ const knex = require("knex")(knexConfig);
 function authorizer(username, password, callback) {
     knex("users").then((users) => {
         for (let user of users) {
-            if(user.username === username && user.password === password) {
+            if(user.username == username && user.password == password) {
                 return callback(null,true);
             }
         }

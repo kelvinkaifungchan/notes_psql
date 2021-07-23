@@ -1,77 +1,63 @@
-const NoteService = require("./noteService")
+const NoteService = require("./noteService");
+const knex = require("knex")({
+  client: 'postgresql',
+  connection: {
+    database: 'notestest',
+    user: 'postgres',
+    password: 'password'
+  },
+  pool: {
+    min: 2,
+    max: 10
+  }
+});
 
 describe("Note service tests", () => {
+  beforeAll(done => {
+    done()
+  })
+  
+  beforeEach(() => {
+    jest.setTimeout(2000);
+  })
 
-    test("List note", () => {
-        const noteService = new NoteService(__dirname + '/noteService.test.json');
-        expect(noteService.list("John"))
-            .resolves.toEqual([])
-    })
+  afterAll(done => {
+    done()
+  })
+  
+  test("If user is defined and there is a note", async () => {
+    const noteService = new NoteService(knex);
+    return noteService
+      .add("Hi There", "Test")
+      .then(() => noteService.list("Test"))
+      .then((data) => {
+        expect(data).toEqual([{
+          id: 1,
+          body: "Hi There",
+        }]);
+      });
+  });
 
-    test("If user is defined and there is a note", () => {
-        const noteService = new NoteService(__dirname + '/noteService.test.json');
-        expect(
-                noteService.add("Hi There", "Jack")
-                .then(noteService.list("Jack"))
-                .catch((err) => {
-                    throw new Error (err)
-                })
-            )
-            .resolves.toEqual(["Hi There"])
-    })
+  test("Editing a note", async () => {
+    const noteService = new NoteService(knex);
+    return noteService
+      .edit("Edited Note", 1)
+      .then(() => noteService.list("Test"))
+      .then((data) => {
+        expect(data).toEqual([{
+          id: 1,
+          body: "Edited Note"
+        }])
+      })
+  });
 
-    test("Adding a note does not replace previous notes", () => {
-        const noteService = new NoteService(__dirname + '/noteService.test.json');
-        expect(
-                noteService.add("Hi There", "Jack")
-                .then(noteService.add("Second Note", "Jack"))
-                .then(noteService.list("Jack"))
-                .catch((err) => {
-                    throw new Error (err)
-                })
-            )
-            .resolves.toEqual(["Hi There", "Second Note"])
-    })
-
-    test("Editing a note", () => {
-        const noteService = new NoteService(__dirname + '/noteService.test.json');
-        expect(
-                noteService.add("Hi There", "Jack")
-                .then(noteService.add("Second Note", "Jack"))
-                .then(noteService.edit("Edited Note", "Jack", [1]))
-                .then(noteService.list("Jack"))
-                .catch((err) => {
-                    throw new Error (err)
-                })
-            )
-            .resolves.toEqual(["Hi There", "Edited Note"])
-    })
-
-    test("Deleting a note", () => {
-        const noteService = new NoteService(__dirname + '/noteService.test.json');
-        expect(
-                noteService.add("Hi There", "Jack")
-                .then(noteService.add("Second Note", "Jack"))
-                .then(noteService.add("Second Note", "Jack"))
-                .then(noteService.delete("Jack", [1]))
-                .then(noteService.list("Jack"))
-                .catch((err) => {
-                    throw new Error (err)
-                })
-            )
-            .resolves.toEqual(["Hi There"]);
-    })
-
-    test("Multiple users and notes", () => {
-        const noteService = new NoteService(__dirname + '/noteService.test.json');
-        expect(
-            noteService.add("Hi There", "Jack")
-            .then(noteService.add("Cool Note", "John"))
-            .then(noteService.add("Second Note", "Jack"))
-            .then(noteService.list("Jack"))
-            .catch((err) => {
-                throw new Error (err)
-            })
-        ).resolves.toEqual(["Hi There", "Second Note"])
-    })
-})
+  test("Deleting a note", async () => {
+    const noteService = new NoteService(knex);
+    return noteService
+      .delete(1)
+      .then(() => noteService.list("Test"))
+      .then((data) => {
+        expect(data).toEqual([])
+      })
+  });
+});

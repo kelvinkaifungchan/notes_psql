@@ -17,10 +17,10 @@ module.exports = {
     }
   },
 
-  staging: {
+  testing: {
     client: 'postgresql',
     connection: {
-      database: process.env.DB_DATABASE,
+      database: process.env.TEST_DATABASE,
       user:     process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD
     },

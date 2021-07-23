@@ -15,6 +15,9 @@ class NoteService {
             .insert({body: note, user_id: user[0].id})
             .into("notes");
         })
+        .then(() => {
+            return 
+        })
     }
 
     // Method to update a note
@@ -39,7 +42,7 @@ class NoteService {
         .where("users.username", user)
         .orderBy("notes.id", "desc")
         .then((notes) => {
-            return notes.map((note) => ({id:note.id, body: note.body}));
+            return notes.map((note) => { return ({id:note.id, body: note.body})})
         })
     }
 }

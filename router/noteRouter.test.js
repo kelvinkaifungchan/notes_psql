@@ -30,7 +30,7 @@ describe("Note router function tests", () => {
     test("Call list in response to get request", (done) => {
         noteRouter.get({
             auth: {
-                user: "Kelvin",
+                user: "Test",
             },
         }, response)
         expect(noteService.list).toHaveBeenCalled();
@@ -40,10 +40,10 @@ describe("Note router function tests", () => {
     test("Call add in response to post method", (done) => {
         noteRouter.post({
             auth: {
-                user: "Kelvin",
+                user: "Test",
             },
             body: {
-                note: "test note "
+                note: "test note"
             }
         }, response)
         expect(noteService.add).toHaveBeenCalled();
@@ -53,7 +53,7 @@ describe("Note router function tests", () => {
     test("Call edit in response to the put method", (done) => {
         noteRouter.put({
             auth: {
-                user: "Kelvin"
+                user: "Test"
             },
             body: {
                 note: "testing note"
@@ -62,7 +62,7 @@ describe("Note router function tests", () => {
                 id: 0
             }
         }, response)
-        expect(noteService.edit).toHaveBeenCalledWith("testing note", "Kelvin", 0);
+        expect(noteService.edit).toHaveBeenCalledWith("testing note", 0);
         done()
     })
 
@@ -75,7 +75,7 @@ describe("Note router function tests", () => {
                 id: 0
             }
         }, response)
-        expect(noteService.delete).toHaveBeenCalledWith("Kelvin", 0);
+        expect(noteService.delete).toHaveBeenCalledWith(0);
         done()
     })
 })

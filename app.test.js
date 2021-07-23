@@ -56,7 +56,7 @@ describe('Testing routes', () => {
     })
 
     test('return 404 if there is a wrong endpoint', (done) => {
-        var auth = 'Basic S2VsdmluOlBhc3N3b3Jk';
+        var auth = 'Basic VGVzdDpQYXNzd29yZA==';
 
         request(app)
             .get('/random')
@@ -70,7 +70,7 @@ describe('Testing routes', () => {
     })
 
     test('return index', (done) => {
-        var auth = 'Basic S2VsdmluOlBhc3N3b3Jk'
+        var auth = 'Basic VGVzdDpQYXNzd29yZA=='
 
         request(app)
             .get('/')
