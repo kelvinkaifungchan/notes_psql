@@ -26,10 +26,6 @@ $(function () {
         let note = $(this).attr("data-id")
         axios
             .delete(`http://localhost:8080/api/notes/${note}`)
-            .then((res) => {
-                console.log("delete received")
-                reload(res.data);
-            })
             .catch((e) => {
                 alert(e)
             })

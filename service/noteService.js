@@ -15,9 +15,6 @@ class NoteService {
             .insert({body: note, user_id: user[0].id})
             .into("notes");
         })
-        .then(() => {
-            return 
-        })
     }
 
     // Method to update a note

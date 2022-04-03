@@ -1,4 +1,5 @@
 # Notes
+<img src="public/assets/Demo.png">
 This project sets up a local server and uses a basic login to allow a user to write, store, edit and delete text notes.
 
 ## Installation

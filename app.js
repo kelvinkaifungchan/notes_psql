@@ -42,6 +42,7 @@ app.get("/", (req, res) => {
     console.log("getting homepage")
     noteService.list(req.auth.user).then((data) => {
         console.log(data)
+        console.log(req.auth.user)
         res.render("index", {
             user: req.auth.user,
             notes: data
